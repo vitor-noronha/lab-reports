@@ -45,9 +45,7 @@ AttackNet: 192.168.200.0/24  (desabilitar DHCP)
 
 ### Evidência
 
-```
-[ PRINT — VirtualBox Network Manager mostrando LabNet e AttackNet criadas ]
-```
+<img width="574" height="228" alt="Image" src="https://github.com/user-attachments/assets/ff179d4e-fc2a-478a-9809-3f866be579f4" />
 
 ---
 
@@ -63,15 +61,11 @@ Após instalação, acesse `https://192.168.100.1` e configure via Setup Wizard.
 
 ### Evidência
 
-```
-[ PRINT — Interface web do pfSense após instalação ]
-[ PRINT — Status > Dashboard com uptime e interfaces ]
-```
-
+<img width="1274" height="887" alt="Image" src="https://github.com/user-attachments/assets/2dc23e40-0a96-411c-b80c-28fd393f6fe1" />
 ---
 
-## Passo 3 — Wazuh All-in-One (substitui Security Onion)
-
+## Passo 3 — Wazuh All-in-One 
+sudo 
 VM: Ubuntu Server 22.04 | 4 GB RAM | 50 GB disco | 1 adaptador: LabNet
 
 ```bash
@@ -127,7 +121,9 @@ Acesse: `https://192.168.100.10`
 
 ```
 [ PRINT — Terminal com saída final do wazuh-install.sh mostrando sucesso ]
+<img width="1277" height="918" alt="Image" src="https://github.com/user-attachments/assets/a1b26b9e-da24-47a3-bc85-16aa57565a5c" />
 [ PRINT — Dashboard do Wazuh acessado pelo Ubuntu Desktop ]
+<img width="1282" height="884" alt="Image" src="https://github.com/user-attachments/assets/f0878a2a-b59b-4f83-9d15-1b4bb4aee40b" />
 [ PRINT — Wazuh > Agents com todos os agentes conectados ]
 ```
 
