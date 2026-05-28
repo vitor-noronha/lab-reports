@@ -65,7 +65,7 @@ Após instalação, acesse `https://192.168.100.1` e configure via Setup Wizard.
 ---
 
 ## Passo 3 — Wazuh All-in-One 
-sudo 
+
 VM: Ubuntu Server 22.04 | 4 GB RAM | 50 GB disco | 1 adaptador: LabNet
 
 ```bash
@@ -131,6 +131,29 @@ Após a instalação do WazuhAIO precisa instalar o agente em outra maquina para
 ## Passo 4 — Ubuntu Server (Alvo Linux)
 
 VM: Ubuntu Server 22.04 | 2 GB RAM | 40 GB | LabNet
+
+```bash
+# Configurar IP fixo antes de instalar
+sudo nano /etc/netplan/00-installer-config.yaml
+```
+
+```yaml
+network:
+  ethernets:
+    enp0s3:
+      dhcp4: false
+      addresses: [192.168.100.20/24]
+      routes:
+        - to: default
+          via: 192.168.100.1
+      nameservers:
+        addresses: [8.8.8.8, 1.1.1.1]
+  version: 2
+```
+
+```bash
+sudo netplan apply
+
 
 ```bash
 # IP fixo
