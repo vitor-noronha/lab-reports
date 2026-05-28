@@ -120,9 +120,6 @@ Acesse: `https://192.168.100.10`
 
 Após a instalação do WazuhAIO precisa instalar o agente em outra maquina para monitorar
 
-Segui o guia do site oficial:
-https://documentation.wazuh.com/4.9/installation-guide/wazuh-agent/wazuh-agent-package-linux.html
-
 
 ### Evidência
 <img width="2559" height="1439" alt="Image" src="https://github.com/user-attachments/assets/9d7c4472-a4bc-4323-9e09-cf8a18e8d413" />
@@ -143,17 +140,19 @@ sudo nano /etc/netplan/00-installer-config.yaml
 sudo netplan apply
 
 # Instalar agente Wazuh
-curl -s https://packages.wazuh.com/key/GPG-KEY-WAZUH | \
-  gpg --dearmor | sudo tee /usr/share/keyrings/wazuh.gpg > /dev/null
+# Install the GPG key:
+curl -s https://packages.wazuh.com/key/GPG-KEY-WAZUH | gpg --no-default-keyring --keyring gnupg-ring:/usr/share/keyrings/wazuh.gpg --import && chmod 644 /usr/share/keyrings/wazuh.gpg
+# Add the repository:
+echo "deb [signed-by=/usr/share/keyrings/wazuh.gpg] https://packages.wazuh.com/4.x/apt/ stable main" | tee -a /etc/apt/sources.list.d/wazuh.list
+# Update the package information:
+apt-get update
+# Deploy a Wazuh agent
+WAZUH_MANAGER="192.168.100.10" apt-get install wazuh-agent=4.9.2-1
+# Enable and start the Wazuh agent service.
+systemctl daemon-reload
+systemctl enable wazuh-agent
+systemctl start wazuh-agent
 
-echo "deb [signed-by=/usr/share/keyrings/wazuh.gpg] \
-  https://packages.wazuh.com/4.x/apt/ stable main" | \
-  sudo tee /etc/apt/sources.list.d/wazuh.list
-
-sudo apt update && sudo apt install wazuh-agent -y
-
-sudo sed -i 's/MANAGER_IP/192.168.100.10/' /var/ossec/etc/ossec.conf
-sudo systemctl enable --now wazuh-agent
 ```
 
 ### Evidência
