@@ -113,19 +113,21 @@ nodes:
 ```bash
 sudo bash wazuh-install.sh -a
 # Ao final: anotar usuário e senha gerados
+
 ```
 
 Acesse: `https://192.168.100.10`
 
-### Evidência
+Após a instalação do WazuhAIO precisa instalar o agente em outra maquina para monitorar
 
-```
-[ PRINT — Terminal com saída final do wazuh-install.sh mostrando sucesso ]
-<img width="1277" height="918" alt="Image" src="https://github.com/user-attachments/assets/a1b26b9e-da24-47a3-bc85-16aa57565a5c" />
-[ PRINT — Dashboard do Wazuh acessado pelo Ubuntu Desktop ]
-<img width="1282" height="884" alt="Image" src="https://github.com/user-attachments/assets/f0878a2a-b59b-4f83-9d15-1b4bb4aee40b" />
-[ PRINT — Wazuh > Agents com todos os agentes conectados ]
-```
+Segui o guia do site oficial:
+https://documentation.wazuh.com/4.9/installation-guide/wazuh-agent/wazuh-agent-package-linux.html
+
+
+### Evidência
+<img width="2559" height="1439" alt="Image" src="https://github.com/user-attachments/assets/9d7c4472-a4bc-4323-9e09-cf8a18e8d413" />
+
+<img width="2559" height="1439" alt="Image" src="https://github.com/user-attachments/assets/bf718c96-3ade-42d8-830a-e15406ce6a49" />
 
 ---
 
@@ -156,9 +158,10 @@ sudo systemctl enable --now wazuh-agent
 
 ### Evidência
 
-```
-[ PRINT — Wazuh Dashboard > Agents > Ubuntu Server (status: Active) ]
-```
+<img width="2559" height="1439" alt="Image" src="https://github.com/user-attachments/assets/bcd8349f-8642-42ee-88d4-1bd38f6e8f4a" />
+
+<img width="2559" height="1439" alt="Image" src="https://github.com/user-attachments/assets/4ebbb419-2fb6-47c6-95d9-c86fbf4add0e" />
+
 
 ---
 
