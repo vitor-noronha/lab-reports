@@ -197,10 +197,10 @@ New-NetIPAddress -InterfaceAlias "Ethernet" `
   -IPAddress 192.168.100.30 -PrefixLength 24 `
   -DefaultGateway 192.168.100.1
 
-# Instalar agente Wazuh (baixar MSI em packages.wazuh.com)
-msiexec.exe /i wazuh-agent.msi /q `
-  WAZUH_MANAGER="192.168.100.10" `
-  WAZUH_AGENT_NAME="windows-server"
+# Instalar agente Wazuh, Gerar o comando no Dashboard > Deploy new agent
+
+Invoke-WebRequest -Uri https://packages.wazuh.com/4.x/windows/wazuh-agent-4.9.2-1.msi -OutFile $env:tmp\wazuh-agent; msiexec.exe /i $env:tmp\wazuh-agent /q WAZUH_MANAGER='192.168.100.10' WAZUH_AGENT_NAME='windowsserver'
+
 
 # Habilitar logs avançados
 auditpol /set /subcategory:"Logon" /success:enable /failure:enable
@@ -209,9 +209,9 @@ auditpol /set /subcategory:"Process Creation" /success:enable
 
 ### Evidência
 
-```
-[ PRINT — Wazuh Dashboard > Agents > Windows Server (status: Active) ]
-```
+<img width="2559" height="1439" alt="Image" src="https://github.com/user-attachments/assets/ecf9e2da-dadb-4591-bf33-10b595ab44a1" />
+<img width="1563" height="196" alt="Image" src="https://github.com/user-attachments/assets/46652054-ee6d-4fa8-86d7-9811e5914fdf" />
+<img width="2559" height="1439" alt="Image" src="https://github.com/user-attachments/assets/bada79ce-7fb5-4704-b1eb-6bab433655db" />
 
 ---
 
