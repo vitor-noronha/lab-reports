@@ -8,14 +8,13 @@ HOST Windows 10/11 (32 GB RAM, SSD)
 └── VirtualBox 7.x
     │
     ├── [Rede do Lab: 192.168.100.0/24]
-    │   ├── pfSense          192.168.100.1    Firewall + IDS
-    │   ├── Wazuh AIO        192.168.100.10   SIEM + HIDS
-    │   ├── Ubuntu Server    192.168.100.20   Alvo Linux
-    │   ├── Windows Server   192.168.100.30   Alvo Windows
-    │   └── Ubuntu Desktop   192.168.100.40   Analista
-    │
-    └── [Rede de Ataque: 192.168.200.0/24]
-        └── Kali Linux       192.168.200.50   Atacante
+        ├── pfSense          192.168.100.1    Firewall + IDS
+        ├── Wazuh AIO        192.168.100.10   SIEM + HIDS
+        ├── Ubuntu Server    192.168.100.20   Alvo Linux
+        ├── Windows Server   192.168.100.30   Alvo Windows
+        ├── Ubuntu Desktop   192.168.100.40   Analista
+        └── Kali Linux       192.168.100.50   Atacante
+    
 ```
 
 ## Requisitos de Hardware por VM
@@ -34,18 +33,18 @@ HOST Windows 10/11 (32 GB RAM, SSD)
 
 ## Passo 1 — Redes Virtuais no VirtualBox
 
-No VirtualBox, crie duas redes internas:
+No VirtualBox, crie rede interna:
 
 ```
 Menu: File > Tools > Network Manager > Host-only Networks
 
 LabNet:    192.168.100.0/24  (desabilitar DHCP — pfSense vai fazer)
-AttackNet: 192.168.200.0/24  (desabilitar DHCP)
+
 ```
 
 ### Evidência
 
-<img width="574" height="228" alt="Image" src="https://github.com/user-attachments/assets/ff179d4e-fc2a-478a-9809-3f866be579f4" />
+<img width="1231" height="814" alt="Image" src="https://github.com/user-attachments/assets/67f6a412-22f1-4066-8c30-7c83588fea13" />
 
 ---
 
@@ -217,18 +216,10 @@ auditpol /set /subcategory:"Process Creation" /success:enable
 
 ## Passo 6 — Kali Linux (Atacante)
 
-VM: Kali Linux | 4 GB RAM | 40 GB | AttackNet
+VM: Kali Linux | 4 GB RAM | 40 GB | LabNet
 
 ```bash
-# IP fixo
-sudo nano /etc/network/interfaces
-# address 192.168.200.50
-# netmask 255.255.255.0
-# gateway 192.168.200.1
-
-# Rota para atacar a rede do lab (ativada só durante exercícios)
-sudo ip route add 192.168.100.0/24 via 192.168.200.1
-
+# IP fixo: 192.168.100.50/24
 # Atomic Red Team
 cd /opt
 sudo git clone https://github.com/redcanaryco/atomic-red-team.git
@@ -236,10 +227,7 @@ sudo git clone https://github.com/redcanaryco/atomic-red-team.git
 
 ### Evidência
 
-```
-[ PRINT — Kali com ferramentas principais: msfconsole, hydra, nmap ]
-```
-
+<img width="1810" height="1286" alt="Image" src="https://github.com/user-attachments/assets/73a48403-ffa4-4b29-a2ae-80be98e4f2b9" />
 ---
 
 ## Passo 7 — Ubuntu Desktop (Analista)
@@ -252,22 +240,13 @@ VM: Ubuntu Desktop 22.04 | 4 GB RAM | 40 GB | LabNet
 # Ferramentas do analista
 sudo apt install -y wireshark tshark curl wget git vim
 
-# Velociraptor (DFIR)
-wget https://github.com/Velocidex/velociraptor/releases/latest/download/velociraptor-linux-amd64
-chmod +x velociraptor-linux-amd64
-sudo mv velociraptor-linux-amd64 /usr/local/bin/velociraptor
-
 # Acesso ao Wazuh via Firefox
 # https://192.168.100.10
 ```
 
 ### Evidência
 
-```
-[ PRINT — Ubuntu Desktop com Firefox aberto no Wazuh Dashboard ]
-[ PRINT — Terminal com ping bem-sucedido para todos os hosts do lab ]
-```
-
+<img width="1273" height="890" alt="Image" src="https://github.com/user-attachments/assets/4a66a306-0b49-4abc-a08f-c93572d0882d" />
 ---
 
 ## Snapshot — Baseline
@@ -283,6 +262,4 @@ Isso permite resetar o lab após cada exercício.
 
 ### Evidência
 
-```
-[ PRINT — VirtualBox mostrando snapshot "baseline-clean" em cada VM ]
-```
+<img width="1231" height="808" alt="Image" src="https://github.com/user-attachments/assets/e9206f74-7be8-423f-866c-05a07b36124f" />
