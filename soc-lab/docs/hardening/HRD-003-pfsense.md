@@ -192,11 +192,8 @@ Firewall > Rules > WAN
 
 #### Evidências — Firewall
 
-```
-[ PRINT — Firewall > Rules > LAN com todas as regras na ordem correta ]
-[ PRINT — Firewall > Rules > WAN mostrando Block private/bogon habilitados ]
-[ PRINT — Teste: ping do Kali para 192.168.100.20 sendo bloqueado (terminal Kali) ]
-```
+<img width="1329" height="563" alt="image" src="https://github.com/user-attachments/assets/e2f49a5e-52f0-41e7-bf1a-10a2c1e36c3e" />
+<img width="1174" height="1236" alt="Image" src="https://github.com/user-attachments/assets/f0d8430c-bda5-49d6-9f5a-931847ee824e" />
 
 ---
 
@@ -264,9 +261,9 @@ Log All:                   ✅
 #### Evidências — Suricata
 
 ```
-[ PRINT — Services > Suricata > Interfaces com status Running na LAN ]
+<img width="1195" height="531" alt="Image" src="https://github.com/user-attachments/assets/b735062c-3281-4180-a710-a9774d0a5358" />
 [ PRINT — Services > Suricata > Alerts mostrando alertas após teste de ataque ]
-[ PRINT — Status > System Logs > Settings com syslog remoto para Wazuh configurado ]
+<img width="1163" height="781" alt="Image" src="https://github.com/user-attachments/assets/cd4ad5ef-602b-4cd1-b3ac-e2f2692e2de2" />
 [ PRINT — Wazuh Dashboard recebendo eventos do pfSense ]
 ```
 
@@ -307,13 +304,10 @@ Clicar "Run" para aplicar os feeds
 
 #### Evidências — pfBlockerNG
 
-```
-[ PRINT — pfBlockerNG > General com status Enable ativo ]
-[ PRINT — pfBlockerNG > IP > IPv4 com os feeds configurados ]
-[ PRINT — pfBlockerNG > Reports > IP mostrando IPs bloqueados ]
-```
 
----
+<img width="1124" height="1297" alt="Image" src="https://github.com/user-attachments/assets/bad5b9f0-c986-4ddc-a20f-8c438c0769fe" />
+<img width="1182" height="1347" alt="Image" src="https://github.com/user-attachments/assets/c3b13f4f-938c-408d-a69b-0471d2f1c206" />
+
 
 ## 6. LOGS E MONITORAMENTO
 
@@ -358,10 +352,7 @@ Atualizar todos os pacotes instalados
 
 #### Evidências — Atualizações
 
-```
-[ PRINT — System > Update mostrando sistema atualizado ]
-```
-
+<img width="1172" height="1349" alt="Image" src="https://github.com/user-attachments/assets/8d400ecb-c08e-4536-ac6a-01c754ac77d2" />
 ---
 
 ## Checklist Final
