@@ -49,22 +49,40 @@ TCP Port:          443
 ```
 
 ### 1.4 — Restringir acesso à interface web por IP
-
+ 
 ```
 System > Advanced > Admin Access
 TCP Port:          443
 Login Protection:  ✅ habilitado
 Anti-Lockout Rule: manter ativo durante configuração, desabilitar após
-
-Firewall > Rules > LAN
-# Criar regra permitindo acesso à porta 443 apenas do analista:
-Ação:    Pass
-Origem:  192.168.100.40  (Ubuntu Desktop — analista)
-Destino: 192.168.100.1
-Porta:   443/TCP
-Descrição: Acesso web pfSense apenas do analista
 ```
-
+ 
+No pfSense, as regras são processadas **de cima para baixo** — a primeira que casar é aplicada e o processamento para. Por isso a regra de permissão do analista precisa vir **antes** da regra de bloqueio geral. São duas regras obrigatórias:
+ 
+```
+Firewall > Rules > LAN
+ 
+# REGRA 1 — Permitir apenas o analista (deve ficar ACIMA da regra de bloqueio)
+Ação:      Pass
+Origem:    192.168.100.40
+Destino:   192.168.100.1
+Porta:     443/TCP
+Descrição: Analista acessa interface web do pfSense
+ 
+# REGRA 2 — Bloquear todos os outros hosts da LAN (deve ficar ABAIXO da regra acima)
+Ação:      Block
+Origem:    192.168.100.0/24
+Destino:   192.168.100.1
+Porta:     443/TCP
+Descrição: Bloquear acesso à interface web para qualquer outro host
+```
+ 
+**Como funciona na prática:**
+- Host `192.168.100.40` (analista) → casa na Regra 1 → **acesso permitido**
+- Host `192.168.100.20` (Ubuntu Server) → não casa na Regra 1, casa na Regra 2 → **bloqueado**
+- Host `192.168.100.50` (Kali) → não casa na Regra 1, casa na Regra 2 → **bloqueado**
+Sem a Regra 2 explícita, qualquer host da LAN chegaria na regra geral `LAN → any` mais abaixo e teria acesso à interface web do pfSense.
+ 
 ### 1.5 — Timeout de sessão
 
 ```
@@ -74,11 +92,11 @@ Session Timeout: 30 (minutos)
 
 #### Evidências — Autenticação
 
-```
-[ PRINT — System > User Manager com usuário soc-admin criado e admin desabilitado ]
-[ PRINT — System > Advanced > Admin Access com HTTPS e timeout configurados ]
-[ PRINT — Firewall > Rules > LAN com regra de acesso restrito à interface web ]
-```
+
+<img width="1279" height="792" alt="Image" src="https://github.com/user-attachments/assets/6c137bba-2bb8-4046-9333-159213149364" />
+<img width="2559" height="1439" alt="Image" src="https://github.com/user-attachments/assets/ddbd1d3c-96b3-4ab1-8d6e-6ce29fb6f501" />
+<img width="2559" height="1439" alt="Image" src="https://github.com/user-attachments/assets/6f01e1ed-293e-4bad-a818-754614958865" />
+
 
 ---
 
@@ -117,10 +135,9 @@ Sincronização de tempo correta é crítica para correlação de logs no SIEM �
 
 #### Evidências — Configurações Gerais
 
-```
-[ PRINT — System > General Setup com DNS e hostname configurados ]
-[ PRINT — Services > NTP mostrando sincronização ativa ]
-```
+
+<img width="2559" height="1439" alt="Image" src="https://github.com/user-attachments/assets/5dd4254c-1e55-4d5c-bfba-0d32ac952d6e" />
+<img width="2559" height="1439" alt="Image" src="https://github.com/user-attachments/assets/7e71da34-41bf-41b7-8938-85293e9d5dec" />
 
 ---
 
@@ -137,16 +154,25 @@ Firewall > Rules > LAN
 # Regras em ordem (pfSense processa de cima para baixo):
 ```
 
+### Tabela de Regras de Firewall - Interface LAN
+
 | Ordem | Ação | Origem | Destino | Porta | Descrição |
 |---|---|---|---|---|---|
-| 1 | Pass | LAN net | LAN address | 53, 67, 68 | DNS e DHCP interno |
-| 2 | Block | 192.168.100.50 | 192.168.100.0/24 | any | Bloquear Kali (desabilitar durante cenários) |
-| 3 | Pass | 192.168.100.40 | 192.168.100.1 | 443 | Analista acessa pfSense |
-| 4 | Pass | 192.168.100.40 | 192.168.100.20 | 22 | Analista SSH → Ubuntu |
-| 5 | Pass | 192.168.100.40 | 192.168.100.30 | 3389 | Analista RDP → Windows |
-| 6 | Pass | LAN net | 192.168.100.10 | 514/UDP | Syslog → Wazuh |
-| 7 | Pass | LAN net | any | 80, 443, 53 | Updates internet |
-| 8 | Block | any | any | any | Default deny |
+| 1 | Pass | LAN subnets | LAN address | 67-68 | DHCP Interno |
+| 2 | Pass | LAN subnets | LAN address | 53 | DNS Interno TCP |
+| 3 | Pass | LAN subnets | LAN address | 53 | DNS Interno UDP |
+| 4 | Pass | LAN subnets | any | any | PING ICMP |
+| 5 | Pass | LAN subnets | any | 123 | NTP Interno |
+| 6 | Block | 192.168.100.50 | any | any | Bloquear Kali |
+| 7 | Pass | 192.168.100.40 | 192.168.100.1 | 443 | Analista acessa pfSense |
+| 8 | Pass | 192.168.100.40 | 192.168.100.20 | 22 | Analista SSH $\rightarrow$ Ubuntu |
+| 9 | Pass | 192.168.100.40 | 192.168.100.30 | 3389 | TCP - Analista RDP $\rightarrow$ Windows |
+| 10 | Pass | 192.168.100.40 | 192.168.100.30 | 3389 | UDP - Analista RDP $\rightarrow$ Windows |
+| 11 | Pass | LAN subnets | 192.168.100.10 | 514 | Syslog $\rightarrow$ Wazuh |
+| 12 | Pass | any | any | 443 | HTTPS Updates internet |
+| 13 | Pass | any | any | 80 | HTTP Updates internet |
+
+<img width="2559" height="1439" alt="Image" src="https://github.com/user-attachments/assets/5391f714-6751-4ce2-ac6a-7101e1c23e1b" />
 
 ### 3.2 — Anti-spoofing
 
