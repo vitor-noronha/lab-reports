@@ -95,7 +95,7 @@ Session Timeout: 30 (minutos)
 
 <img width="1279" height="792" alt="Image" src="https://github.com/user-attachments/assets/6c137bba-2bb8-4046-9333-159213149364" />
 <img width="2559" height="1439" alt="Image" src="https://github.com/user-attachments/assets/ddbd1d3c-96b3-4ab1-8d6e-6ce29fb6f501" />
-<img width="2559" height="1439" alt="Image" src="https://github.com/user-attachments/assets/6f01e1ed-293e-4bad-a818-754614958865" />
+
 
 
 ---
