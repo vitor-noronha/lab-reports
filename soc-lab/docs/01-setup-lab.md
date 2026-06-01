@@ -8,12 +8,13 @@ HOST Windows 10/11 (32 GB RAM, SSD)
 └── VirtualBox 7.x
     │
     ├── [Rede do Lab: 192.168.100.0/24]
-        ├── pfSense          192.168.100.1    Firewall + IDS
-        ├── Wazuh AIO        192.168.100.10   SIEM + HIDS
-        ├── Ubuntu Server    192.168.100.20   Alvo Linux
-        ├── Windows Server   192.168.100.30   Alvo Windows
-        ├── Ubuntu Desktop   192.168.100.40   Analista
-        └── Kali Linux       192.168.100.50   Atacante
+    │   ├── pfSense          192.168.100.1    Firewall + IDS
+    │   ├── Wazuh AIO        192.168.100.10   SIEM + HIDS
+    │   ├── Ubuntu Server    192.168.100.20   Alvo Linux
+    │   ├── Windows Server   192.168.100.30   Alvo Windows
+    │   └── Ubuntu Desktop   192.168.100.40   Analista
+    │
+    └── Kali Linux       192.168.100.50   Atacante (mesma rede do lab)
     
 ```
 
