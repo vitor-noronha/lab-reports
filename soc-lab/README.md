@@ -41,15 +41,13 @@ Este repositório documenta a construção e operação de um laboratório de SO
 ```
 HOST: Windows 10/11 (32 GB RAM) — VirtualBox
 │
-├── Rede do Lab: 192.168.100.0/24
-│   ├── pfSense          192.168.100.1   Firewall · IDS Suricata
-│   ├── Wazuh All-in-One 192.168.100.10  SIEM · HIDS · Dashboard
-│   ├── Ubuntu Server    192.168.100.20  Alvo Linux
-│   ├── Windows Server   192.168.100.30  Alvo Windows / AD
-│   └── Ubuntu Desktop   192.168.100.40  Estação do Analista
-│
-└── Rede de Ataque: 192.168.200.0/24 (isolada)
-    └── Kali Linux       192.168.200.50  Simulação de ataques
+└── Rede do Lab: 192.168.100.0/24
+    ├── pfSense          192.168.100.1   Firewall · IDS Suricata
+    ├── Wazuh All-in-One 192.168.100.10  SIEM · HIDS · Dashboard
+    ├── Ubuntu Server    192.168.100.20  Alvo Linux
+    ├── Windows Server   192.168.100.30  Alvo Windows / AD
+    ├── Ubuntu Desktop   192.168.100.40  Estação do Analista
+    └── Kali Linux       192.168.100.50  Simulação de ataques
 ```
 
 ### Evidência — Diagrama de rede
