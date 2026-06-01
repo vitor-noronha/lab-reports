@@ -140,7 +140,7 @@ Firewall > Rules > LAN
 | Ordem | Ação | Origem | Destino | Porta | Descrição |
 |---|---|---|---|---|---|
 | 1 | Pass | LAN net | LAN address | 53, 67, 68 | DNS e DHCP interno |
-| 2 | Block | 192.168.200.0/24 | 192.168.100.0/24 | any | Isolar rede Kali |
+| 2 | Block | 192.168.100.50 | 192.168.100.0/24 | any | Bloquear Kali (desabilitar durante cenários) |
 | 3 | Pass | 192.168.100.40 | 192.168.100.1 | 443 | Analista acessa pfSense |
 | 4 | Pass | 192.168.100.40 | 192.168.100.20 | 22 | Analista SSH → Ubuntu |
 | 5 | Pass | 192.168.100.40 | 192.168.100.30 | 3389 | Analista RDP → Windows |
@@ -348,7 +348,7 @@ Atualizar todos os pacotes instalados
 - [ ] NTP sincronizado (America/Sao_Paulo)
 - [ ] Regras de firewall em ordem com default deny
 - [ ] Anti-spoofing habilitado na WAN
-- [ ] Rede de ataque (Kali) isolada da rede do lab
+- [ ] Kali Linux (192.168.100.50) bloqueado por regra de firewall quando não há cenário ativo
 - [ ] Suricata ativo em modo IDS na interface LAN
 - [ ] Regras ET Open e Snort Community baixadas
 - [ ] Logs EVE JSON habilitados no Suricata
