@@ -54,8 +54,20 @@ sudo systemctl enable tmp.mount
 sudo systemctl start tmp.mount
 
 # Adicionar opções restritivas ao /tmp
-sudo nano /etc/systemd/system/tmp.mount
-# Options=mode=1777,strictatime,noexec,nodev,nosuid
+sudo vi /etc/systemd/system/tmp.mount
+
+[Unit]
+Description=Temporary files filesystem
+
+[Mount]
+What=/tmp
+Type=tmpfs
+Options=mode=1777,strictatime,noexec,nodev,nosuid
+
+[Install]
+WantedBy=multi-user.target
+
+:wq
 
 # 2.3 - Desabilitar sistemas de arquivos desnecessários
 cat >> /etc/modprobe.d/cis.conf << 'EOF'
@@ -78,12 +90,22 @@ sudo update-initramfs -u
 ```bash
 # 3.1 - Proteger GRUB com senha
 sudo grub-mkpasswd-pbkdf2
-# (copiar o hash gerado)
+# (PBKDF2 hash of your password is grub.pbkdf2.sha512.10000.44B308E75DB4E00CBFBC5E00E024FB1775B2DBDD87856326ABFE109111974250E2B087BD6351EBFCC0F4F56E748239809D5A12D565187B5D88A2FE28D64F746E.3AF2A2E3E51350069F0661D3EDF8CF0B10AB3DEBE36F2C08E66FD593A769E52993DB1FCC68AC055ED54024A2E780B1F80A67B72817F1821A6BBDFDE5BB8A47DC)
 
 sudo nano /etc/grub.d/40_custom
 # Adicionar:
 # set superusers="admin"
 # password_pbkdf2 admin <HASH_COPIADO>
+
+vitorubuntuserver@ubuntuserver:~$ sudo cat /etc/grub.d/40_custom
+#!/bin/sh
+exec tail -n +3 $0
+# This file provides an easy way to add custom menu entries.  Simply type the
+# menu entries you want to add after this comment.  Be careful not to change
+# the 'exec tail' line above
+set superusers="admin"
+password_pbkdf2 admin grub.pbkdf2.sha512.10000.44B308E75DB4E00CBFBC5E00E024FB1775B2DBDD87856326ABFE109111974250E2B087BD6351EBFCC0F4F56E748239809D5A12D565187B5D88A2FE28D64F746E.3AF2A2E3E51350069F0661D3EDF8CF0B10AB3DEBE36F2C08E66FD593A769E52993DB1FCC68AC055ED54024A2E780B1F80A67B72817F1821A6BBDFDE5BB8A47DC
+
 
 sudo update-grub
 
