@@ -38,7 +38,7 @@ sudo dpkg-reconfigure -plow unattended-upgrades
 cat /etc/apt/apt.conf.d/20auto-upgrades
 ```
 
-**✅ Evidência:** `apt list --upgradable` deve retornar vazio após upgrade.
+<img width="665" height="86" alt="Image" src="https://github.com/user-attachments/assets/1f27e84b-4415-4522-a7be-dbe835cf6600" />
 
 ---
 
