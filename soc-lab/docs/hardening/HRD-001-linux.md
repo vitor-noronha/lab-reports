@@ -462,7 +462,7 @@ sudo fail2ban-client status
 ---
 
 ## Verificação Final (Scoring)
-
+  <---- Falta concluir essa etapa
 ```bash
 # Instalar e executar CIS-CAT Lite (verificação automática)
 # Download: https://www.cisecurity.org/cis-benchmarks/
